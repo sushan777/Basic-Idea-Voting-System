@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container pt-5" style="">
+		
+		
+
+		<section class=" col-md-6 col-12 offset-md-3" style="">
+			
+			<h1>Sign Up</h1>
+			<form id="registerForm" method="POST" action="{% url 'accounts:register' %}">
+				{% csrf_token %}
+				
+				<fieldset class="form-group">
+					<label>Username</label>
+					<input type="text" class="form-control m-2" name = "username">	
+				</fieldset>
+				<fieldset class="form-group">
+					<label>Password</label>
+					<input type="password" class="form-control m-2" name = "password">	
+				</fieldset>
+				<fieldset class="form-group">
+					<label>Confirm-Password</label>
+					<input type="password" class="form-control m-2" name = "password-confirm">	
+				</fieldset>
+				<button class="btn btn-primary">Register</button>
+			</form>
+			
+		</section>
+		
+		
+	</main>
+
+
+{% endblock %}

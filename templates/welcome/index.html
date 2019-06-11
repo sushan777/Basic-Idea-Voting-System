@@ -1,0 +1,38 @@
+
+	{% extends 'base.html' %}
+
+	{% block content %}
+	<main class="container" style="">
+		
+		<h1>Ideas</h1>
+		{% for idea in ideas %}
+		<section class="row justify-content-center align-items-center">
+			<figure class="col-2">
+				<img src="/media/{{idea.image}}" class="img img-thumbnail" alt="">
+				
+			</figure>
+			<div class="col-9">
+				<h4>{{idea.title}}</h4>
+				<small>{{idea.user}} | {{idea.created}}</small>
+				<article>
+					{{idea.description | truncatechars:250}}
+
+					<a class="btn btn-link" href="{% url 'ideas:view' idea.id %}">View</a>
+				</article>
+			</div>
+			<div class="col-1">
+				<i class="fa fa-fw fa-thumbs-up">{{ idea.num_upvotes }}</i>
+				<br />
+				<br />
+				<i class="fa fa-fw fa-thumbs-down">{{ idea.num_downvotes }}</i>
+				<br />
+				<br />
+				<i class="fa fa-fw fa-thumbs-comment"> {{ idea.num_comment}}</i>
+			</div>
+			
+			</section>
+		{% endfor %}
+		
+	</main>
+	
+	{% endblock %}

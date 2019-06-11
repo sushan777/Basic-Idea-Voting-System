@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container pt-5">
+
+
+	<section class="col-12">
+		<div class="row">
+			
+			
+			<header class="mr-auto">
+				<h1>{{ idea.title }}</h1>
+				<small>Published: {{ idea.created }} | User: {{ idea.user }}</small>
+			</header>
+			<div class="ml-auto">
+				<span data-value="U" data-action="vote"><i class="fa fa-thumbs-up fa-2x" style="color: {% if vote == 'U' %}blue{% else %}grey{% endif %}">
+				</i></span>
+				<span data-value="D" data-action="vote"><i class="fa fa-thumbs-down fa-2x" style="color: {% if vote == 'D' %}red{% else %}grey{% endif %}"></i></span>
+			</div>
+		</div>	
+		
+		<figure>
+			<img src="/media/{{ idea.image }}" class="img img-fluid">
+
+		</figure>
+		<h3>Description</h3>
+		<article class="pt-3"> {{ idea.description }}</article>
+
+	</section>
+	<div>
+		
+
+		<header>
+			<br>
+			<h3>Comments</h3>
+			
+		</header>
+		{% for comment in comments %}
+		<section class="card card-body" style="background-color:aqua">
+			<div>
+
+				
+				<small>{{ comment.created }} | User: {{ comment.user }}</small>
+			</div>
+			<article>{{comment.comment}}</article>
+
+		</section>
+		{% endfor %}
+
+	</div>
+
+	<form action="{% url 'ideas:comment' %}" method="POST" class="pt-5">
+		{% csrf_token %}
+		<label>Add Your Comment</label>
+		<fieldset class="form-group" >
+			{{ comment_form.comment }}
+		</fieldset>
+		{{ comment_form.user }} {{ comment_form.idea }}
+		<input type="submit" value="comment" class="btn btn-primary">
+	</form>
+</main>
+<script>
+
+	function getCookie(name) {
+		var cookieValue = null;
+		if (document.cookie && document.cookie !== '') {
+			var cookies = document.cookie.split(';');
+			for (var i = 0; i < cookies.length; i++) {
+				var cookie = jQuery.trim(cookies[i]);
+    // Does this cookie string begin with the name we want?
+    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+    	cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+    	break;
+    }
+}
+}
+return cookieValue;
+}
+$(document).ready(function() {
+
+            $('[data-action="vote"]').on('click', function() {
+                var vote = $(this).attr('data-value')
+                var $this = $(this)
+
+                $.ajax({
+                    url: "{% url 'ideas:vote' idea.id %}",
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken")
+                    },
+                    data: {
+                        'vote': vote
+                    },
+                    dataType: 'json',
+                    method: 'POST',
+                    success: function(res) {
+                        let clas = res.class
+                        let message = res.message
+                        if (clas == 'error') {
+                            toastr.error(message)
+                        } else {
+                            toastr.success(message)
+                        }
+                        if (res.status && res.status == 'Removed') {
+
+                            $this.children('i').css('color', 'grey')
+                            $this.children('i').animate({fontSize: '3em'})
+                            $this.children('i').animate({fontSize: '2em'})
+
+                        } else if (vote == 'D') {
+                            $this.children('i').css('color', 'tomato')
+                            $this.children('i').animate({fontSize: '3em'})
+                            $this.children('i').animate({fontSize: '2em'})
+                            
+                        } else {
+                            $this.children('i').css('color', 'blue')
+                            $this.children('i').animate({fontSize: '3em'})
+                            $this.children('i').animate({fontSize: '2em'})
+                        }
+                    },
+                    error: function(res) {
+                        toastr.error("An Error Occured")
+                    }
+                })
+            })
+
+        });
+
+</script>
+
+{% endblock %}

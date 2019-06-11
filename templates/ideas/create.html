@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container pt-5">
+		
+		
+		<section class=" col-md-6 col-12 offset-md-3 ">
+			{% if page_title == 'Add Your Idea' %}
+
+		<h1>Add Your Idea</h1>
+			<form id="CreateIdeaForm" method="POST" action="{% url 'ideas:create' %}" enctype="multipart/form-data">
+			{% else %}
+			<h1>Edit Your Idea</h1>
+			<form id="CreateIdeaForm" method="POST" action="{% url 'ideas:edit' id %}" enctype="multipart/form-data">
+			{% endif %}
+				{% csrf_token %}
+			
+			
+			{# 	{{ form.as_p }} #}
+				{# form.as_table,form.as_ul  #}
+				<fieldset class="form-group">
+					{% if form.title.error %}
+					<p> {{ form.title.error }}</p>
+					{% endif %}
+					<label>{{ form.title.label }}</label>
+					{{ form.title }}
+				</fieldset>
+				 <fieldset class="form-group">
+					<label>{{ form.image.label }}</label>
+					{{ form.image }}
+				</fieldset>
+				 <fieldset class="form-group">
+					<label>{{ form.description.label }}</label>
+					{{ form.description }}
+				</fieldset> 
+				 				<button class="btn btn-primary">Submit</button>
+			<!-- {% for field in form %}
+			<fieldset class="form-group">
+				 	<label>{{ field.label }}</label>
+				 	{{ field }}
+				 </fieldset>
+				 {% endfor %}
+				 <button class="btn btn-primary">Submit</button> -->
+			</form>
+			</form>
+		</section>
+		
+		
+	</main>
+	<script>
+		
+	</script>
+
+
+{% endblock %}

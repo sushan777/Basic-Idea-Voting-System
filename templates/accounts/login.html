@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container pt-5">
+		
+		
+		<section class=" col-md-6 col-12 offset-md-3 ">
+
+		<h1>Sign In</h1>
+			<form id="loginForm" method="POST" action="{% url 'accounts:login' %}">
+				{% csrf_token %}
+				<fieldset class="form-group">
+					<label>Username</label>
+					<input type="text" class="form-control m-2" name = "username">	
+				</fieldset>
+				<fieldset class="form-group">
+					<label>Password</label>
+					<input type="password" class="form-control m-2" name = "password">	
+				</fieldset>
+				
+				<button class="btn btn-primary">Submit</button>
+			</form>
+			<br>
+			<fieldset class="form-group">
+					<a href="{% url 'accounts:register' %}">Register here!</a>
+				</fieldset>
+		</section>
+		
+		<script>
+			$(documnent).ready(function(){
+			$('#loginForm'),validate({
+				rules:{
+					username:'required',
+					password:'required'
+				}
+			});
+		})
+		</script>
+	</main>
+
+
+{% endblock %}

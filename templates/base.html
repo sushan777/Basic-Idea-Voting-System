@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title> {{page_title}}</title>
+	<link rel="stylesheet" href = "{% static 'css/bootstrap.css' %}">
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="stylesheet" href = "{% static 'css/toastr.css' %}">
+
+  <script async src="{% static 'js/jquery.js' %}"></script>
+	
+</head>
+<body>
+	<header>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+    <div class="container">
+      
+    
+  <a class="navbar-brand" href="{% url 'welcome:home' %}">Project</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      {% if user.is_authenticated %}
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'accounts:dashboard' %}">Dashboard <span class="sr-only">(current)</span></a>
+      </li>
+      
+      <li class="nav-item">
+         <a class="nav-link" href="{% url 'ideas:create' %}">Post an Idea <span class="sr-only">(current)</span></a>
+      </li>
+       <li class="nav-item">
+         <a class="nav-link" href="{% url 'accounts:view_profile' %}">Profile<span class="sr-only">(current)</span></a>
+      </li>
+       <li class="nav-item">
+         <a class="nav-link" href="{% url 'accounts:edit_profile' %}">Edit Profile <span class="sr-only">(current)</span></a>
+      </li>
+     
+       {% endif %}
+       <li class="nav-item">
+         <a class="nav-link" href="#">Other User <span class="sr-only">(current)</span></a>
+      </li>
+  </ul>
+  <ul class="navbar-nav ml-auto">
+    {% if not user.is_authenticated %}
+      <li class="nav-item {% if page_title == 'Login' %} active{% endif %}">
+        <a class="nav-link" href="{% url 'accounts:login' %}"><i class="fa fa-sign-in-alt">Login</i></a>
+      </li>
+      <li class="nav-item {% if page_title == 'Register' %} active{% endif %}"">
+        <a class="nav-link " href="{% url 'accounts:register' %}"><i class="fa fa-user">Register</i></a>
+      </li>
+      {% else %}
+         <li class="nav-item">
+        <a class="nav-link" href="{% url 'accounts:logout' %}"><i class="fa fa-sign-in-alt">Logout</i></a>
+      </li>
+      {% endif %}
+       
+    </ul>
+
+  </div>
+  </div>
+</nav>
+	</header>
+	{% block content %} {% endblock %}
+  <script src="{% static 'js/toastr.min.js' %}"></script>
+  <script defer src="{% static 'js/popper.js' %}"></script>
+  <script defer src="{% static 'js/bootstrap.js' %}"></script>
+   <script defer src="{% static 'js/form_validation.js' %}"></script>
+  
+
+{% if messages %} {% for message in messages %}
+<script>
+  toastr.{{message.tags}}("{{message}}")
+  
+toastr.options = {
+  "closeButton": true,
+  "debug": true,
+  "newestOnTop": true,
+  "progressBar": true,
+  "positionClass": "toast-bottom-right",
+  "preventDuplicates": true,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": 0,
+  "extendedTimeOut": 0,
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut",
+  "tapToDismiss": false
+}
+</script>
+{% endfor %} {% endif %}
+</body>
+</html>

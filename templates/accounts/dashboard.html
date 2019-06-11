@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container pt-5">
+		
+		
+		<section class="col-12">
+
+		<h1>Dashboard</h1>
+
+		<table class="table table-hover">
+			<tr>
+				<th>SN</th>
+				<th></th>
+				<th>Title</th>
+				<th>Created</th>
+				<th>view</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</tr>
+
+		{% for idea in ideas %}
+		<tr>
+			<td>{{forloop.counter}}</td>
+			<td><img src="/media/{{idea.image}}" class="img img-fluid" style="height:50px"></td>
+			<td>{{idea.title}}</td>
+			<td>{{idea.created}}</td>
+			<td> <a class="btn btn-secondary" href="{% url 'ideas:view' idea.id %}">View</a></td>
+			<td> <a class="btn btn-primary" href="{% url 'ideas:edit' idea.id %}">Edit</a></td>
+			<td> <a class="btn btn-danger" href="{% url 'ideas:delete' idea.id %}">Delete</a></td>
+		</tr>
+
+		{% endfor %}
+	</table>
+			
+		</section>
+		
+		
+	</main>
+	
+{% endblock %}
