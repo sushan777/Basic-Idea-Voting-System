@@ -129,8 +129,8 @@ USE_TZ = True
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'xlblaze2@gmail.com'
-EMAIL_HOST_PASSWORD = 'Dark1angel'
+EMAIL_HOST_USER = 'abc@gmail.com'
+EMAIL_HOST_PASSWORD = '******'
 EMAIL_USE_TLS = True
 
 # Static files (CSS, JavaScript, Images)
